@@ -1,24 +1,41 @@
 {
-  "name": "exp",
+  "name": "exp-draft",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "bin/cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "bin": {
     "exp": "bin/cli.js"
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "framework",
+    "sinatra",
+    "web",
+    "rest",
+    "restful",
+    "router",
+    "app",
+    "api"
+  ],
+  "preferGlobal": true,
+  "files": [
+    "LICENSE",
+    "bin/",
+    "templates/"
+  ],
   "author": "Truly Mittal <trulymittal@gmail.com>",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "description": "Minimal express api generator",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "figlet": "^1.5.0",
     "fs-extra": "^9.0.1",
     "log-symbols": "^4.0.0",
     "ora": "^5.1.0"
   },
   "devDependencies": {
-    "chalk": "^4.1.0",
-    "figlet": "^1.5.0"
+    "validate-npm-package-name": "^3.0.0"
   }
 }

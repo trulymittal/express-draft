@@ -12,6 +12,8 @@ app.get('/', async (req, res, next) => {
   res.send({ message: 'Awesome it works 🐻' });
 });
 
+app.use('/api', require('./routes/api.route'));
+
 app.use((req, res, next) => {
   next(createError.NotFound());
 });
@@ -19,7 +21,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send({
-    code: err.status || 500,
+    status: err.status || 500,
     message: err.message,
   });
 });
