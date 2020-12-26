@@ -1,0 +1,24 @@
+{
+  "name": "exp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "exp": "bin/cli.js"
+  },
+  "keywords": [],
+  "author": "Truly Mittal <trulymittal@gmail.com>",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "log-symbols": "^4.0.0",
+    "ora": "^5.1.0"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.0",
+    "figlet": "^1.5.0"
+  }
+}
