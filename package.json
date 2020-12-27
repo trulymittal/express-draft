@@ -1,12 +1,11 @@
 {
-  "name": "exp-draft",
+  "name": "express-draft",
   "version": "1.0.0",
   "main": "bin/cli.js",
-  "scripts": {
-    
-  },
+  "scripts": {},
   "bin": {
-    "exp": "bin/cli.js"
+    "exp": "bin/cli.js",
+    "express-draft": "bin/cli.js"
   },
   "keywords": [
     "express",
@@ -29,6 +28,7 @@
   "license": "MIT",
   "description": "Minimal express api generator",
   "dependencies": {
+    "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "figlet": "^1.5.0",
     "fs-extra": "^9.0.1",

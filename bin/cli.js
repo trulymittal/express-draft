@@ -6,28 +6,27 @@ const figlet = require('figlet');
 const chalk = require('chalk');
 const logSymbols = require('log-symbols');
 const ora = require('ora');
+const boxen = require('boxen');
 
 const mArgs = process.argv.slice(2);
 const startTime = new Date().getTime();
 
 if (mArgs.length === 0) {
-  console.log(logSymbols.error, chalk.red('invalid path...'));
+  console.log(logSymbols.error, chalk.red('Invalid args...'));
+  console.log(chalk.blue('Quick start...'));
+  console.group();
+  console.log(chalk.green('exp .'), '(OR express-draft .)');
+  console.log(`installs in current directory (${process.cwd()})`);
+  console.log('OR');
+  console.log(chalk.green('exp mApp'), '(OR express-draft mApp)');
   console.log(
-    'use',
-    chalk.green('exp .'),
-    ', to install in current directory',
-    process.cwd()
+    `installs in "mApp" directory (${path.join(process.cwd(), 'mApp')})`
   );
-  console.log(
-    'or',
-    chalk.green('exp mApp'),
-    ', to install in mApp directory',
-    path.join(process.cwd(), 'mApp')
-  );
+  console.groupEnd();
   return;
 }
 
-const appDir = path.join(process.cwd(), mArgs[0]);
+const rootDir = path.join(process.cwd(), mArgs[0]);
 
 figlet('Exp', { font: 'Ghost' }, (err, data) => {
   if (err) {
@@ -36,27 +35,40 @@ figlet('Exp', { font: 'Ghost' }, (err, data) => {
     return;
   }
   console.log(chalk.green(data));
-  const channel = 'https://youtube.com/c/yourstruly267';
-  const paypal = 'https://paypal.me/trulymittal';
-  console.log(chalk.yellow('-----------------------------------------------'));
-  console.log(chalk.white('📺 Visit us @'), chalk.red(channel));
-  console.log(chalk.white('💰 Support us @'), chalk.blue(paypal));
-  console.log(chalk.yellow('-----------------------------------------------'));
+  const channelLink = 'https://youtube.com/c/yourstruly267';
+  const paypalLink = 'https://paypal.me/trulymittal';
+  // console.log(chalk.yellow('-----------------------------------------------'));
+  // console.log(chalk.white('📺 Visit us @'), chalk.red(channel));
+  // console.log(chalk.white('💰 Support us @'), chalk.blue(paypal));
+  // console.log(chalk.yellow('-----------------------------------------------'));
+  const youtube = `${chalk.white('📺 Visit @')} ${chalk.red(channelLink)}`;
+  const paypal = `${chalk.white('💰 Support @')} ${chalk.blue(paypalLink)}`;
+  const header = `${youtube}\n${paypal}`;
+  console.log(
+    boxen(header, {
+      borderColor: 'yellow',
+      borderStyle: 'classic',
+      align: 'left',
+    })
+  );
   createApp();
 });
 
 async function createApp() {
   try {
-    if (!(await fs.pathExists(appDir))) {
-      await fs.mkdir(appDir);
+    if (!(await fs.pathExists(rootDir))) {
+      await fs.mkdir(rootDir);
     }
 
-    const files = await fs.readdir(appDir);
+    const files = await fs.readdir(rootDir);
     if (files.length > 0) {
-      console.log(logSymbols.error, 'Directory not empty, aborting');
+      console.log(
+        logSymbols.error,
+        `Path ${chalk.green(rootDir)} not empty, ${chalk.red('aborting')}`
+      );
       return;
     }
-    console.log('🚚 Bootstrapping Express app in', chalk.green(appDir), '\n');
+    console.log('🚚 Bootstrapping Express app in', chalk.green(rootDir), '\n');
 
     await installScript('npm', ['init', '-y'], 'Creating Package.json ...');
     await installScript(
@@ -79,8 +91,8 @@ async function createApp() {
 
 function installScript(command, args, spinnerText) {
   return new Promise((resolve, reject) => {
-    const spinner = ora(spinnerText).start();
-    const child = spawn(command, args, { cwd: appDir });
+    const spinner = ora({ text: spinnerText, spinner: 'dots' }).start();
+    const child = spawn(command, args, { cwd: rootDir });
     // child.stderr.on('data', (data) => console.log('stderr...'));
     // child.stdout.on('data', (data) => console.log('stdout...'));
     child.on('exit', (code, signal) => {
@@ -105,11 +117,11 @@ function copyFiles() {
     const spinner = ora('Pouring files ...').start();
     try {
       const srcAppJs = path.join(__dirname, '..', 'templates', 'app.js');
-      const destAppJs = path.join(appDir, 'app.js');
+      const destAppJs = path.join(rootDir, 'app.js');
       await fs.copyFile(srcAppJs, destAppJs);
 
       const srcEnv = path.join(__dirname, '..', 'templates', 'default.env');
-      const destEnv = path.join(appDir, '.env');
+      const destEnv = path.join(rootDir, '.env');
       await fs.copyFile(srcEnv, destEnv);
 
       const srcApiRoute = path.join(
@@ -118,7 +130,7 @@ function copyFiles() {
         'templates',
         'api.route.js'
       );
-      const routePath = path.join(appDir, 'routes');
+      const routePath = path.join(rootDir, 'routes');
       await fs.mkdir(routePath);
       const destApiRoute = path.join(routePath, 'api.route.js');
       await fs.copyFile(srcApiRoute, destApiRoute);
@@ -136,9 +148,10 @@ function modifyPackageJson() {
   return new Promise(async (resolve, reject) => {
     const spinner = ora('Creating scripts ...').start();
     try {
-      const pkgSrc = path.join(appDir, 'package.json');
+      const pkgSrc = path.join(rootDir, 'package.json');
       const pkgfile = await fs.readFile(pkgSrc, { encoding: 'utf-8' });
       let packageJson = JSON.parse(pkgfile);
+      // let packageJson = await fs.readJson(pkgSrc);
 
       packageJson = {
         ...packageJson,
@@ -149,8 +162,9 @@ function modifyPackageJson() {
         },
         license: 'MIT',
       };
-      const pkgDest = path.join(appDir, 'package.json');
+      const pkgDest = path.join(rootDir, 'package.json');
       await fs.writeFile(pkgDest, JSON.stringify(packageJson, null, 2));
+      // await fs.writeJSON(pkgDest, packageJson);
       spinner.succeed();
       resolve();
     } catch (error) {
@@ -171,13 +185,13 @@ function done() {
   console.groupEnd();
   console.log(chalk.blue('npm start'));
   console.group();
-  console.log('starts the server (using node 😁)');
+  console.log(`starts the server (using node 😁)`);
   console.groupEnd();
   console.groupEnd();
   console.log(chalk.yellow('------------------------------------'));
 
   const endTime = new Date().getTime();
   const timeDifference = (endTime - startTime) / 1000;
-  console.log(`✅ Done in ${timeDifference} seconds 💫`);
+  console.log(`✅ Done in ${timeDifference} seconds ✨`);
   console.log('🌈 Happy hacking 🦄');
 }
