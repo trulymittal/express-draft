@@ -63,7 +63,7 @@ This is how easy it is to get going.
 ## A picture is worth a thousand words.
 
 <p align='center'>
-<img src='./SCREENCAST.svg' width='600' alt='exp mApp'>
+<img src='https://github.com/trulymittal/express-draft/blob/master/SCREENCAST.svg?raw=true' width='600' alt='express-draft'>
 </p>
 
 ## What dependencies it installs ?
