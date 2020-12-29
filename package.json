@@ -1,6 +1,6 @@
 {
   "name": "express-draft",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "bin/cli.js",
   "scripts": {},
   "bin": {
