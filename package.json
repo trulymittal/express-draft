@@ -10,6 +10,9 @@
   "keywords": [
     "express",
     "framework",
+    "express-draft",
+    "exp",
+    "express api scaffolding",
     "sinatra",
     "web",
     "rest",
@@ -24,7 +27,7 @@
     "bin/",
     "templates/"
   ],
-  "author": "Truly Mittal <trulymittal@gmail.com>",
+  "author": "Truly Mittal <trulymittal@gmail.com> (https://www.trulymittal.com/)",
   "license": "MIT",
   "description": "Minimal express api generator",
   "dependencies": {
@@ -37,5 +40,19 @@
   },
   "devDependencies": {
     "validate-npm-package-name": "^3.0.0"
-  }
+  },
+  "homepage": "https://github.com/trulymittal/express-draft",
+  "bugs": {
+    "url": "https://github.com/trulymittal/express-draft/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trulymittal/express-draft.git"
+  },
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://paypal.me/trulymittal"
+    }
+  ]
 }
